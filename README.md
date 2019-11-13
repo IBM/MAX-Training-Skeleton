@@ -126,8 +126,8 @@ Upon completion of this task, the model repository contains the model training f
 
 ```
 $ ls $MODEL_REPO_HOME/training
- train_max_model
- setup_max_model_training
+ train_max_model.py
+ setup_max_model_training.py
  requirements.txt
  max-...-training-config.yaml
  sample_training_data/
@@ -135,8 +135,8 @@ $ ls $MODEL_REPO_HOME/training
  data_preparation/
 ```
 
-- `train_max_model` - The training script that the end-user will run to train the model. This is the core of the training framework.
-- `train_max_model` - The user must run this script to configure model training prior to running `wml_train.py`.
+- `train_max_model.py` - The training script that the end-user will run to train the model. This is the core of the training framework.
+- `setup_max_model_training.py` - The user must run this script to configure model training prior to running `wml_train.py`.
 - `requirements.txt` - Identifies prerequisite packages
 - `max-...-training-config.yaml` - The model-specific configuration file that `wml_train.py` uses to perform model training. The end-user updates this file using `wml_setup.py`.
 - `sample_training_data/` - This dicrectory contains optionally a small training data set that the end-user can use to train the model. (to understand the flow etc)
@@ -193,29 +193,29 @@ How model-serving has been implemented has a major impact on model training code
     $MODEL_REPO_HOME/training
    $ pip install -r requirements.txt
      ...
-   $ ./setup_max_model_training <max-model-name-training-config>.yaml
+   $ python setup_max_model_training.py <max-model-name-training-config>.yaml
      ...
    ```
    
-   > If `setup_max_model_training` or `train_max_model` fails at any time due to a missing package open an issue. We will update the `requirements.txt` in the training skeleton as necessary. 
+   > If `setup_max_model_training.py` or `train_max_model.py` fails at any time due to a missing package open an issue. We will update the `requirements.txt` in the training skeleton as necessary. 
    
- 2. Upon completion, `setup_max_model_training` should display a set of environment variables that you need to define.  
+ 2. Upon completion, `setup_max_model_training.py` should display a set of environment variables that you need to define.  
    
 ## Task 7: Verify that model training works as expected
    
-1. Launch the training utility `train_max_model` in `$MODEL_REPO_HOME/training/` to review its options.
+1. Launch the training utility `train_max_model.py` in `$MODEL_REPO_HOME/training/` to review its options.
 
    ```
    $ pwd
     $MODEL_REPO_HOME/training
 
-   $ ./train_max_model
+   $ python train_max_model.py
    ```
 
 1. Prepare for training. This step creates the required buckets in COS, uploads the training data (if required), and creates the WML model building code archive.
 
    ```
-   $ ./train_max_model <max-model-name-training-config>.yaml prepare
+   $ python train_max_model.py <max-model-name-training-config>.yaml prepare
    ```
 
 1. Inspect the content of the generated model building code archive `<max-model-name>-model-building-code.zip`. This archive is sent to WML when the training is started.
@@ -223,7 +223,7 @@ How model-serving has been implemented has a major impact on model training code
 1. Train the model and package the artifacts.
 
    ```
-   $ ./train_max_model <max-model-name-training-config>.yaml package
+   $ python train_max_model.py <max-model-name-training-config>.yaml package
    ```
    
 1. Review the output and the downloaded training log file `training-log.txt`. No errors should be reported.

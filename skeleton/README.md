@@ -15,7 +15,7 @@ This document provides instructions to train the model on Watson Machine Learnin
 
 ## Prepare Data for Training
 
-To prepare your data for training complete the steps listed in [data_preparation/README.md](data_preparation/README.md).
+You can test the model training process using the sample data in the `sample_training_data` directory.  To prepare your data for training complete the steps listed in [data_preparation/README.md](data_preparation/README.md).
 
 ## Train the Model
 
@@ -37,11 +37,11 @@ Open a terminal window, change dir into `$MODEL_REPO_HOME_DIR/training` and inst
     ... 
    ```
 
-The directory contains two Python scripts, `setup_max_model_training` and `train_max_model`, which you'll use to prepare your environment for model training and to perform model training on Watson Machine Learning.
+The directory contains two Python scripts, `setup_max_model_training.py` and `train_max_model.py`, which you'll use to prepare your environment for model training and to perform model training on Watson Machine Learning.
 
 ### Run the Setup Script
 
-To perform model training, you need access to a Watson Machine Learning service instance and a Cloud Object Storage service instance on IBM Cloud. The `setup_max_model_training` Python script prepares your IBM Cloud resources for model training and configures your local environment.
+To perform model training, you need access to a Watson Machine Learning service instance and a Cloud Object Storage service instance on IBM Cloud. The `setup_max_model_training.py` script prepares your IBM Cloud resources for model training and configures your local environment.
 
 #### Steps
 
@@ -55,10 +55,10 @@ To perform model training, you need access to a Watson Machine Learning service 
      {{lowercase-max-model-name}}-training-config.yaml
    ```
 
-2. Run `setup_max_model_training` and follow the prompts to configure model training.
+2. Run `setup_max_model_training.py` and follow the prompts to configure model training.
 
    ```
-    $ ./setup_max_model_training {{lowercase-max-model-name}}-training-config.yaml
+    $ python setup_max_model_training.py {{lowercase-max-model-name}}-training-config.yaml
      ...
      ------------------------------------------------------------------------------
      Model training setup is complete and your configuration file was updated.
@@ -68,8 +68,6 @@ To perform model training, you need access to a Watson Machine Learning service 
      Training results bucket name: {{lowercase-max-model-name}}-sample-output
      Compute configuration       : k80     
    ```
-
-   > On Microsoft Windows run `python setup_max_model_training {{lowercase-max-model-name}}-training-config.yaml`.
 
    The setup script updates the training configuration file using the information you've provided. For security reasons, confidential information, such as API keys or passwords, are _not_ stored in this file. Instead the script displays a set of environment variables that you must define to make this information available to the training script.
    
@@ -97,17 +95,13 @@ To perform model training, you need access to a Watson Machine Learning service 
 
    > If you re-run the setup script and select a different Watson Machine Learning service instance or Cloud Object Storage service instance the displayed values will change. The values do not change if you modify any other configuration setting, such as the input data bucket or the compute configuration.
 
-### Prepare Data for Training
-
-You can test the model training process using the sample data in the `sample_training_data` directory. To use your own data, follow the instructions in [data_preparation/README.md](data_preparation/README.md).
-
 ### Customize Training
 
 If you wish to change the network architecture or training hyper-parameters like `epochs` etc, change the corresponding arguments in `$MODEL_REPO_HOME_DIR/training/training_code/training-parameters.sh`.
 
 ### Train the Model Using Watson Machine Learning
 
-The `train_max_model` script verifies your configuration settings, packages the model training code, uploads it to Watson Machine Learning, launches the training run, monitors the training run, and downloads the trained model artifacts.
+The `train_max_model.py` script verifies your configuration settings, packages the model training code, uploads it to Watson Machine Learning, launches the training run, monitors the training run, and downloads the trained model artifacts.
 
 Complete the following steps in the terminal window where the earlier mentioned environment variables are defined. 
 
@@ -116,15 +110,13 @@ Complete the following steps in the terminal window where the earlier mentioned 
 1. Verify that the training preparation steps complete successfully.
 
    ```
-    $ ./train_max_model {{lowercase-max-model-name}}-training-config.yaml prepare
+    $ python train_max_model.py {{lowercase-max-model-name}}-training-config.yaml prepare
      ...
      # --------------------------------------------------------
      # Checking environment variables ...
      # --------------------------------------------------------
      ...
    ```
-
-   > On Microsoft Windows run `python train_max_model {{lowercase-max-model-name}}-training-config.yaml prepare`.
 
    If preparation completed successfully:
 
@@ -134,7 +126,7 @@ Complete the following steps in the terminal window where the earlier mentioned 
 1. Start model training.
 
    ```
-   $ ./train_max_model {{lowercase-max-model-name}}-training-config.yaml package
+   $ python train_max_model.py {{lowercase-max-model-name}}-training-config.yaml package
     ...
     # --------------------------------------------------------
     # Starting model training ...
@@ -147,8 +139,6 @@ Complete the following steps in the terminal window where the earlier mentioned 
     Model training was started. Training id: model-...
     ...
    ```
-
-   > On Microsoft Windows run `python train_max_model {{lowercase-max-model-name}}-training-config.yaml package`.
 
 1. Note the displayed `Training id`. It uniquely identifies your training run in Watson Machine Learning.
 
@@ -166,10 +156,8 @@ Complete the following steps in the terminal window where the earlier mentioned 
    To **restart** monitoring, run the following command, replacing `<training-id>` with the id that was displayed when you started model training. 
    
       ```
-      ./train_max_model {{lowercase-max-model-name}}-training-config.yaml package <training-id>
+      $ python train_max_model.py {{lowercase-max-model-name}}-training-config.yaml package <training-id>
       ```
-
-    > On Microsoft Windows run `python ./train_max_model {{lowercase-max-model-name}}-training-config.yaml package <training-id>`
   
    To **cancel** the training run, press `Ctrl+C` twice.
 
