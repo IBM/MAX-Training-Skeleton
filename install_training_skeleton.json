@@ -1,0 +1,35 @@
+{
+    
+    "supported_frameworks": [
+        {
+            "name": "TensorFlow",
+            "id": "tensorflow",
+            "version": "1.12",
+            "model_path": [
+                {
+                    "name": "Checkpoint",
+                    "value": "trained_model/tensorflow/checkpoint/"
+                },
+                {
+                    "name": "Frozen graph definition",
+                    "value": "trained_model/tensorflow/frozen_graph_def/"
+                },
+                {
+                    "name": "Saved model",
+                    "value": "trained_model/tensorflow/saved_model/"
+                }
+            ]
+        },
+        {
+            "name": "Keras",
+            "id": "tensorflow",
+            "version": "1.12",
+            "model_path": [
+                {
+                    "name": "h5",
+                    "value": "trained_model/keras/h5/"
+                }
+            ]
+        } 
+    ]
+}

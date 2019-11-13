@@ -1,0 +1,2 @@
+# requirements for the MAX training skeleton installer
+ruamel.yaml==0.15.74
