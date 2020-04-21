@@ -81,7 +81,9 @@ echo "Training work files and results will be stored in $RESULT_DIR"
 # Install prerequisite packages
 # IBM TODO: add required packages to the file 
 # 
-echo "Installing prerequisite packages ..."
+echo "Installing the following prerequisite packages ..."
+cat training_requirements.txt
+
 pip install --user --no-deps -r training_requirements.txt
 
 RETURN_CODE=$?
