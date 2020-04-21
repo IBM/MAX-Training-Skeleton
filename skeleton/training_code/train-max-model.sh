@@ -30,7 +30,7 @@ POST_PROCESSING_FAILED=2
 PACKAGING_FAILED_RETURN_CODE=3
 CUSTOMIZATION_ERROR_RETURN_CODE=4
 ENV_ERROR_RETURN_CODE=5
-SETUP_FAILED_RETURN_CODE=6
+PIP_FAILED_RETURN_CODE=6
 
 # --------------------------------------------------------------------
 #  Verify that the required environment variables are defined
@@ -92,9 +92,9 @@ pip freeze
 echo "----------------------------------------------------"
 
 if [ $RETURN_CODE -gt 0 ]; then
-  # pip install returned an error; exit with SETUP_FAILED_RETURN_CODE
+  # pip install returned an error; exit with PIP_FAILED_RETURN_CODE
   echo "Error: pip install exited with status code $RETURN_CODE"
-  exit $SETUP_FAILED_RETURN_CODE
+  exit $PIP_FAILED_RETURN_CODE
 fi
 
 
