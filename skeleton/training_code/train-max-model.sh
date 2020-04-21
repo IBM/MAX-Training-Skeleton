@@ -30,6 +30,7 @@ POST_PROCESSING_FAILED=2
 PACKAGING_FAILED_RETURN_CODE=3
 CUSTOMIZATION_ERROR_RETURN_CODE=4
 ENV_ERROR_RETURN_CODE=5
+SETUP_FAILED_RETURN_CODE=6
 
 # --------------------------------------------------------------------
 #  Verify that the required environment variables are defined
@@ -81,7 +82,21 @@ echo "Training work files and results will be stored in $RESULT_DIR"
 # IBM TODO: add required packages to the file 
 # 
 echo "Installing prerequisite packages ..."
-pip install -r training_requirements.txt
+pip install --user --no-deps -r training_requirements.txt
+
+RETURN_CODE=$?
+
+# display installed packages to aid with troubleshooting
+echo "Installed Python packages:"
+pip freeze
+echo "----------------------------------------------------"
+
+if [ $RETURN_CODE -gt 0 ]; then
+  # pip install returned an error; exit with SETUP_FAILED_RETURN_CODE
+  echo "Error: pip install exited with status code $RETURN_CODE"
+  exit $SETUP_FAILED_RETURN_CODE
+fi
+
 
 # ---------------------------------------------------------------
 # Perform model training tasks
